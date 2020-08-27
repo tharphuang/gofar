@@ -1,13 +1,18 @@
 package main
 
-import ""
+import (
+	"fmt"
+	cmd "gofar/gofra-cli/command"
+	gcmd "gofar/tools/os"
+	gstr "gofar/tools/text"
+)
 
 const (
 	VERSION = "0.0.1"
 )
 
 var (
-	helpContent = string(`
+	helpContent = gstr.TrimLeft(`
 USAGE
     gf COMMAND [ARGUMENT] [OPTION]
 COMMAND
@@ -34,3 +39,45 @@ ADDITIONAL
     in the tail of their comments.
 `)
 )
+
+func main() {
+
+	command := gcmd.GetArg(1)
+
+	if gcmd.ContainsOpt("h") && command != "" {
+		help(command)
+		return
+	}
+
+	switch command {
+	case "help":
+		help(gcmd.GetArg(2))
+	case "version":
+		version()
+	case "gen":
+		cmd.GenerateFile(gcmd.GetArg(2), gcmd.GetArg(3))
+	case "build":
+		cmd.BuildFile(gcmd.GetArg(2), gcmd.GetArg(3))
+
+	default:
+		fmt.Println("do you forget something?")
+	}
+}
+
+// help shows more information for specified command.
+func help(command string) {
+	switch command {
+	case "version":
+		fmt.Print("help")
+	default:
+		fmt.Print(helpContent)
+	}
+}
+
+func version() {
+	fmt.Println(`GoFar CLI Tool %s`, VERSION)
+}
+
+func genProto() {
+
+}
