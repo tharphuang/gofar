@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	cmd "gofar/gofra-cli/command"
+	cmd "gofar/gofar-cli/command"
 	gcmd "gofar/tools/os"
 	gstr "gofar/tools/text"
 )
@@ -57,8 +57,7 @@ func main() {
 	case "gen":
 		cmd.GenerateFile(gcmd.GetArg(2), gcmd.GetArg(3))
 	case "build":
-		cmd.BuildFile(gcmd.GetArg(2), gcmd.GetArg(3))
-
+		cmd.BuildFile(gcmd.GetArg(2))
 	default:
 		fmt.Println("do you forget something?")
 	}

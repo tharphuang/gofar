@@ -2,12 +2,24 @@ package command
 
 import (
 	"fmt"
+	gstr "gofar/tools/text"
 	"os"
 	"os/exec"
 )
 
-func BuildFile(fileType, fileName string) {
-	switch fileType {
+var warningBuild = gstr.TrimLeft(`
+Gofar gen: no arguments input.
+Use "gofar build [arguments]"
+The arguments are:
+	proto	build protobuf files of go 
+	migrate	build databases migrateion files of go`)
+
+func BuildFile(jobType string) {
+	if jobType == "" {
+		fmt.Println(warningBuild)
+		return
+	}
+	switch jobType {
 	case "proto":
 		buildProtoFile()
 	default:

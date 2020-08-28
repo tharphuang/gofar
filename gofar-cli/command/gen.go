@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	gstr "gofar/tools/text"
 )
 
 var lines = `syntax = "proto3";
@@ -24,10 +25,24 @@ service  $Service{
 }
 `
 
-func GenerateFile(fileType, fileName string) {
-	switch fileType {
+var warningGen = gstr.TrimLeft(`
+Gofar gen: no job tyep input.
+Use "gofar gen <type> [arguments]"
+The type are:
+	proto	protobuf files
+	migrate	databases migrateion files`)
+
+func GenerateFile(jobType, fileName string) {
+	if jobType == ""{
+		fmt.Println(warningGen)
+		return
+	}
+
+	switch jobType {
 	case "proto":
 		createProtoFile(fileName)
+	case "migrate":
+		migrateFile(fileName)
 	default:
 		fmt.Println("No such file type, please try again.")
 	}
@@ -44,21 +59,21 @@ func formatName(fileName string) string {
 	return string(nameChars)
 }
 
-func createProtoFile(filename string) {
+func createProtoFile(fileName string) {
 	_, err := os.Stat("../proto")
 	if os.IsNotExist(err) {
 		os.Mkdir("../proto", 0777)
 		os.Chmod("../proto", 0777)
 	}
 
-	filePath := "../proto/" + filename + ".proto"
+	filePath := "../proto/" + fileName + ".proto"
 
 	f, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, 0777)
 	if err != nil {
 		panic(err)
 	}
 
-	lines = strings.Replace(lines, "$", formatName(filename), -1)
+	lines = strings.Replace(lines, "$", formatName(fileName), -1)
 
 	_, err = f.Write([]byte(lines))
 
@@ -69,4 +84,8 @@ func createProtoFile(filename string) {
 	f.Close()
 
 	fmt.Println("create proto file success!")
+}
+
+func migrateFile(fileName string){
+
 }
