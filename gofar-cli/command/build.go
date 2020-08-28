@@ -2,13 +2,13 @@ package command
 
 import (
 	"fmt"
-	gstr "gofar/tools/text"
+	"github.com/TharpHuang/gofar/tools/text"
 	"os"
 	"os/exec"
 )
 
-var warningBuild = gstr.TrimLeft(`
-Gofar gen: no arguments input.
+var warningBuild = text.TrimLeft(`
+Gofar build: no arguments input.
 Use "gofar build [arguments]"
 The arguments are:
 	proto	build protobuf files of go 
@@ -23,13 +23,13 @@ func BuildFile(jobType string) {
 	case "proto":
 		buildProtoFile()
 	default:
-		fmt.Println("No such file type, please try again.")
+		fmt.Println(warningGen)
 	}
 
 }
 
 func buildProtoFile() {
-	cmd, err := script("../real_deploy.sh")
+	cmd, err := script("./real_deploy.sh")
 	if err != nil {
 		panic(err)
 	}

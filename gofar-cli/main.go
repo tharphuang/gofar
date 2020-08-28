@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	cmd "gofar/gofar-cli/command"
-	gcmd "gofar/tools/os"
-	gstr "gofar/tools/text"
+	cli "github.com/TharpHuang/gofar/gofar-cli/command"
+	gcmd "github.com/TharpHuang/gofar/tools/os"
+	"github.com/TharpHuang/gofar/tools/text"
 )
 
 const (
@@ -12,31 +12,19 @@ const (
 )
 
 var (
-	helpContent = gstr.TrimLeft(`
+	helpContent = text.TrimLeft(`
 USAGE
-    gf COMMAND [ARGUMENT] [OPTION]
+    gofar COMMAND [ARGUMENT] [OPTION]
 COMMAND
-    env        show current Golang environment variables
-    get        install or update GF to system in default...
-    gen        automatically generate go files for ORM models...
-    mod        extra features for go modules...
-    run        running go codes with hot-compiled-like feature...
-    init       initialize an empty GF project at current working directory...
+    gen        automatically generate go files of options type...
     help       show more information about a specified command
-    pack       packing any file/directory to a resource file, or a go file...
     build      cross-building go project for lots of platforms...
-    docker     create a docker image for current GF project...
-    swagger    swagger feature for current project...
-    update     update current gf binary to latest one (might need root/admin permission)
-    install    install gf binary to system (might need root/admin permission)
-    version    show current binary version info
+    version    show current binary version info...
+	migrate    migrate the migration files of database... 
 OPTION
-    -y         all yes for all command without prompt ask 
-    -?,-h      show this help or detail for specified command
-    -v,-i      show version information
+    file name or some other things
 ADDITIONAL
-    Use 'gf help COMMAND' or 'gf COMMAND -h' for detail about a command, which has '...' 
-    in the tail of their comments.
+    Use 'gofar help COMMAND' or 'gofar COMMAND -h' for detail about a command
 `)
 )
 
@@ -55,9 +43,11 @@ func main() {
 	case "version":
 		version()
 	case "gen":
-		cmd.GenerateFile(gcmd.GetArg(2), gcmd.GetArg(3))
+		cli.GenerateFile(gcmd.GetArg(2), gcmd.GetArg(3))
 	case "build":
-		cmd.BuildFile(gcmd.GetArg(2))
+		cli.BuildFile(gcmd.GetArg(2))
+	case "migrate":
+		cli.Migrate(gcmd.GetArg(2))
 	default:
 		fmt.Println("do you forget something?")
 	}
@@ -74,7 +64,7 @@ func help(command string) {
 }
 
 func version() {
-	fmt.Println(`GoFar CLI Tool %s`, VERSION)
+	fmt.Printf("Gofar CLI Tool: %s \n", VERSION)
 }
 
 func genProto() {

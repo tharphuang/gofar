@@ -1,7 +1,7 @@
 package os
 
 import (
-	gregex "gofar/tools/text"
+	gregex "github.com/TharpHuang/gofar/tools/text"
 	"os"
 )
 

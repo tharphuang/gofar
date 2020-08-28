@@ -2,12 +2,13 @@ package command
 
 import (
 	"fmt"
+	"github.com/TharpHuang/gofar/tools/text"
 	"os"
+	"path/filepath"
 	"strings"
-	gstr "gofar/tools/text"
 )
 
-var lines = `syntax = "proto3";
+var protoLines = `syntax = "proto3";
 package proto;
 
 //Todo change the name of messages and service 
@@ -17,7 +18,7 @@ message $Request{
 }
 
 message $Response{
-  string return_msg = 1;
+  string response_msg = 1;
 }
 
 service  $Service{
@@ -25,7 +26,11 @@ service  $Service{
 }
 `
 
-var warningGen = gstr.TrimLeft(`
+var databaseLines = `package migrate
+
+`
+
+var warningGen = text.TrimLeft(`
 Gofar gen: no job tyep input.
 Use "gofar gen <type> [arguments]"
 The type are:
@@ -33,7 +38,7 @@ The type are:
 	migrate	databases migrateion files`)
 
 func GenerateFile(jobType, fileName string) {
-	if jobType == ""{
+	if jobType == "" {
 		fmt.Println(warningGen)
 		return
 	}
@@ -41,10 +46,10 @@ func GenerateFile(jobType, fileName string) {
 	switch jobType {
 	case "proto":
 		createProtoFile(fileName)
-	case "migrate":
-		migrateFile(fileName)
+	case "migration":
+		migrationFile(fileName)
 	default:
-		fmt.Println("No such file type, please try again.")
+		fmt.Println(warningGen)
 	}
 
 }
@@ -60,20 +65,22 @@ func formatName(fileName string) string {
 }
 
 func createProtoFile(fileName string) {
-	_, err := os.Stat("../proto")
+	protoPath, err := filepath.Abs("proto")
+
+	_, err = os.Stat(protoPath)
 	if os.IsNotExist(err) {
-		os.Mkdir("../proto", 0777)
-		os.Chmod("../proto", 0777)
+		os.Mkdir(protoPath, 0777)
+		os.Chmod(protoPath, 0777)
 	}
 
-	filePath := "../proto/" + fileName + ".proto"
+	filePath := filepath.Join(protoPath, fileName+".proto")
 
 	f, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, 0777)
 	if err != nil {
 		panic(err)
 	}
 
-	lines = strings.Replace(lines, "$", formatName(fileName), -1)
+	lines := strings.Replace(protoLines, "$", formatName(fileName), -1)
 
 	_, err = f.Write([]byte(lines))
 
@@ -86,6 +93,32 @@ func createProtoFile(fileName string) {
 	fmt.Println("create proto file success!")
 }
 
-func migrateFile(fileName string){
+func migrationFile(fileName string) {
+	dbPath, err := filepath.Abs("migration")
+
+	_, err = os.Stat(dbPath)
+	if os.IsNotExist(err) {
+		os.Mkdir(dbPath, 0777)
+		os.Chmod(dbPath, 0777)
+	}
+
+	filePath := filepath.Join(dbPath, fileName+".go")
+
+	f, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, 0777)
+	if err != nil {
+		panic(err)
+	}
+
+	lines := strings.Replace(databaseLines, "$", formatName(fileName), -1)
+
+	_, err = f.Write([]byte(lines))
+
+	if err != nil {
+		panic(err)
+	}
+
+	f.Close()
+
+	fmt.Println("create database file success!")
 
 }
