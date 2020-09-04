@@ -1,0 +1,5 @@
+{
+  "mysqlUser": "user",
+  "mysqlPassword": "password",
+  "mysqlPath": "tcp(localhost:3306)/database"
+}

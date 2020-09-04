@@ -5,7 +5,9 @@ import (
 	"github.com/TharpHuang/gofar/tools/text"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
+	"time"
 )
 
 var protoLines = `syntax = "proto3";
@@ -26,7 +28,9 @@ service  $Service{
 }
 `
 
-var databaseLines = `package migrate
+var databaseLines = `package migration
+
+
 
 `
 
@@ -45,7 +49,7 @@ func GenerateFile(jobType, fileName string) {
 
 	switch jobType {
 	case "proto":
-		createProtoFile(fileName)
+		protoFile(fileName)
 	case "migration":
 		migrationFile(fileName)
 	default:
@@ -64,7 +68,7 @@ func formatName(fileName string) string {
 	return string(nameChars)
 }
 
-func createProtoFile(fileName string) {
+func protoFile(fileName string) {
 	protoPath, err := filepath.Abs("proto")
 
 	_, err = os.Stat(protoPath)
@@ -102,7 +106,8 @@ func migrationFile(fileName string) {
 		os.Chmod(dbPath, 0777)
 	}
 
-	filePath := filepath.Join(dbPath, fileName+".go")
+	timeStr := strconv.FormatInt(time.Now().Unix(), 10)
+	filePath := filepath.Join(dbPath, fileName+"_"+timeStr+".go")
 
 	f, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, 0777)
 	if err != nil {
@@ -119,6 +124,6 @@ func migrationFile(fileName string) {
 
 	f.Close()
 
-	fmt.Println("create database file success!")
+	fmt.Println("Created Migration： " + filePath)
 
 }

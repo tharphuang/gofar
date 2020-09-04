@@ -9,7 +9,7 @@ var warningMigrate = text.TrimLeft(`
 Gofar migrate: no arguments input.
 Use "gofar migrate [arguments]"
 The arguments are:
-	create	migrate all database migration 
+	create		migrate all database migration 
 	rollback	rollback the databases migration `)
 
 func Migrate(arg string) {
