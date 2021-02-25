@@ -2,7 +2,7 @@
 
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
-**gofar**是一个居于protobuf的web微服务框架，“gofar，you are a mature framework, you should learn to coding by yourself”。
+**gofar**是一个基于protobuf的web微服务框架，“gofar，you are a mature framework, you should learn to coding by yourself”。
 ## 特点
  - 支持proto协议go代码的自动生成。  
  - 支持ORM数据层持久化。
