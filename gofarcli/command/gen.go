@@ -2,12 +2,13 @@ package command
 
 import (
 	"fmt"
-	"github.com/TharpHuang/gofar/tools/text"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/TharpHuang/gofar/tools/text"
 )
 
 var protoLines = `syntax = "proto3";

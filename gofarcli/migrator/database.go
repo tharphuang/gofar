@@ -34,25 +34,25 @@ type Cursor interface {
 
 // Database is the interface of a database with underlying sql.DB object.
 type Database interface {
-	// Get the underlying sql.DB object of the database
+	// GetDB Get the underlying sql.DB object of the database
 	GetDB() *sql.DB
 
-	// Executes a query and return the cursor
+	// Query Executes a query and return the cursor
 	Query(sql string) (Cursor, error)
-	// Executes a query with context and return the cursor
+	// QueryContext Executes a query with context and return the cursor
 	QueryContext(ctx context.Context, sqlString string) (Cursor, error)
-	// Executes a statement
+	// Execute Executes a statement
 	Execute(sql string) (sql.Result, error)
-	// Executes a statement with context
+	// ExecuteContext Executes a statement with context
 	ExecuteContext(ctx context.Context, sql string) (sql.Result, error)
-	// Set the logger function
+	// SetLogger Set the logger function
 	SetLogger(logger func(sql string, durationNano int64))
-	// Set the retry policy function.
+	// SetRetryPolicy Set the retry policy function.
 	// The retry policy function returns true if needs retry.
 	SetRetryPolicy(retryPolicy func(err error) bool)
-	// enable or disable caller info
+	// EnableCallerInfo enable or disable caller info
 	EnableCallerInfo(enableCallerInfo bool)
-	// Set a interceptor function
+	// SetInterceptor Set a interceptor function
 	SetInterceptor(interceptor InterceptorFunc)
 
 	// Initiate a SELECT statement

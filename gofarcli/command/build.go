@@ -2,9 +2,10 @@ package command
 
 import (
 	"fmt"
-	"github.com/TharpHuang/gofar/tools/text"
 	"os"
 	"os/exec"
+
+	"github.com/TharpHuang/gofar/tools/text"
 )
 
 var warningBuild = text.TrimLeft(`

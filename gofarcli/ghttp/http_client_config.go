@@ -5,8 +5,8 @@ import (
 	"net/http"
 )
 
-type  Client struct{
+type Client struct {
 	http.Client
-	ctx context.Context
+	ctx    context.Context
 	parent *Client
 }
