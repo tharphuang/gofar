@@ -3,9 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"os"
+
 	"github.com/TharpHuang/gofar/migration"
 	_ "github.com/go-sql-driver/mysql"
-	"os"
 	"xorm.io/xorm"
 )
 

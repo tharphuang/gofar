@@ -1,8 +1,9 @@
 package os
 
 import (
-	gregex "github.com/TharpHuang/gofar/tools/text"
 	"os"
+
+	gregex "github.com/TharpHuang/gofar/tools/text"
 )
 
 var (
