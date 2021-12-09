@@ -1,0 +1,18 @@
+syntax  = "proto3";
+
+import "google/protobuf/struct.proto";
+
+option go_package="generated/grpc";
+
+service Greeter{
+    rpc SayHello (Request) returns (Response){};
+}
+
+message Request{
+    string name = 1;
+}
+
+message Response{
+    string msg = 1;
+    google.protobuf.Value result = 2;
+}

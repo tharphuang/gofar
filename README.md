@@ -20,3 +20,8 @@
  >_: gofar version
  Gofar CLI Tool: 0.0.1
 ```  
+
+4.proto 外部以来安装
+go get -u github.com/golang/protobuf/{proto,protoc-gen-go}
+vim ~/.bash_profile
+source ~/.bash_profile

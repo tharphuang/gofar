@@ -18,8 +18,7 @@ func ExecuteHelper(name string, subName string, args ...string) (string, error) 
 }
 
 func ExecError(cmd *cobra.Command, args []string, err error) {
-	fmt.Fprintf(os.Stderr, "execute: %s %s\n \033[1;31;40m error:%v\033[0m\n", cmd.Name(), args, err)
-	os.Exit(1)
+	fmt.Fprintf(os.Stderr, "gofar %s %v: %s\n ", cmd.Name(), args, err.Error())
 }
 
 func CommandError(cmd *cobra.Command) {

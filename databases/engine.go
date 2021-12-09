@@ -32,9 +32,10 @@ func main() {
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
-	mysqlSource := fmt.Sprintf("%s:%s@%s", conf.MysqlUser, conf.MysqlPassword, conf.MysqlPath)
+	fmt.Printf("%v",conf)
+	//mysqlSource := fmt.Sprintf("%s:%s@%s", conf.MysqlUser, conf.MysqlPassword, conf.MysqlPath)
 
-	engine, err := xorm.NewEngine("mysql", mysqlSource)
+	engine, err := xorm.NewEngine("mysql","docker:123456@tcp(127.0.0.1:3306)/test?charset=utf8")
 	if err != nil {
 		panic(err)
 	}

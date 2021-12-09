@@ -36,11 +36,12 @@ var databaseLines = `package migration
 `
 
 var warningGen = text.TrimLeft(`
-Gofar gen: no job tyep input.
+Gofar gen: no job type input.
 Use "gofar gen <type> [arguments]"
 The type are:
 	proto	protobuf files
-	migrate	databases migrateion files`)
+	migrate	databases migrateion files
+	`)
 
 func GenerateFile(jobType, fileName string) {
 	if jobType == "" {
